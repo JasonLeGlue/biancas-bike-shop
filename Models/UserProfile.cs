@@ -1,3 +1,4 @@
+using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.AspNetCore.Identity;
 
 namespace BiancasBikes.Models;
@@ -13,5 +14,6 @@ public class UserProfile
 
     public IdentityUser IdentityUser { get; set; }
 
+    [InverseProperty(nameof(WorkOrder.MechanicUserProfile))]
     public List<WorkOrder> WorkOrders { get; set; }
 }

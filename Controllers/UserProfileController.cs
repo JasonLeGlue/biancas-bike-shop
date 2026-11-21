@@ -36,4 +36,11 @@ public class UserProfileController : ControllerBase
             })
             .ToList());
     }
+
+    [HttpGet("mechanics")]
+    [Authorize]
+    public IActionResult GetMechanics()
+    {
+        return Ok(_dbContext.UserProfiles.ToList());
+    }
 }

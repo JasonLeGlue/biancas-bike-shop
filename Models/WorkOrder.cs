@@ -7,7 +7,8 @@ namespace BiancasBikes.Models;
 public class WorkOrder
 {
     public int Id { get; set; }
-    [MaxLength(100)]
+    [Required(ErrorMessage = "Please describe the problem with the bike.")]
+    [MaxLength(100, ErrorMessage = "Work order descriptions must be 100 characters or less.")]
     public string Description { get; set; }
     public DateTime DateInitiated { get; set; }
     public DateTime? DateCompleted { get; set; }
@@ -19,7 +20,7 @@ public class WorkOrder
     public int InitiatedByUserProfileId { get; set; }
     [ForeignKey("InitiatedByUserProfileId")]
     public UserProfile InitiatedByUserProfile { get; set; }
-
+    [Range(1, int.MaxValue, ErrorMessage = "Please choose a bike.")]
     public int BikeId { get; set; }
     public Bike Bike { get; set; }
 }

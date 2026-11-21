@@ -11,6 +11,7 @@ export default function Register({ setLoggedInUser }) {
   const [address, setAddress] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [errors, setErrors] = useState("");
 
   const [passwordMismatch, setPasswordMismatch] = useState();
   const [registrationFailure, setRegistrationFailure] = useState(false);
@@ -32,7 +33,7 @@ export default function Register({ setLoggedInUser }) {
         password,
       };
       register(newUser).then((user) => {
-        if (user) {
+        if (user && !user.errors) {
           setLoggedInUser(user);
           navigate("/");
         } else {
@@ -43,96 +44,105 @@ export default function Register({ setLoggedInUser }) {
   };
 
   return (
-    <div className="container" style={{ maxWidth: "500px" }}>
-      <h3>Sign Up</h3>
-      <FormGroup>
-        <Label>First Name</Label>
-        <Input
-          type="text"
-          value={firstName}
-          onChange={(e) => {
-            setFirstName(e.target.value);
-          }}
-        />
-      </FormGroup>
-      <FormGroup>
-        <Label>Last Name</Label>
-        <Input
-          type="text"
-          value={lastName}
-          onChange={(e) => {
-            setLastName(e.target.value);
-          }}
-        />
-      </FormGroup>
-      <FormGroup>
-        <Label>Email</Label>
-        <Input
-          type="email"
-          value={email}
-          onChange={(e) => {
-            setEmail(e.target.value);
-          }}
-        />
-      </FormGroup>
-      <FormGroup>
-        <Label>User Name</Label>
-        <Input
-          type="text"
-          value={userName}
-          onChange={(e) => {
-            setUserName(e.target.value);
-          }}
-        />
-      </FormGroup>
-      <FormGroup>
-        <Label>Address</Label>
-        <Input
-          type="text"
-          value={address}
-          onChange={(e) => {
-            setAddress(e.target.value);
-          }}
-        />
-      </FormGroup>
-      <FormGroup>
-        <Label>Password</Label>
-        <Input
-          invalid={passwordMismatch}
-          type="password"
-          value={password}
-          onChange={(e) => {
-            setPasswordMismatch(false);
-            setPassword(e.target.value);
-          }}
-        />
-      </FormGroup>
-      <FormGroup>
-        <Label> Confirm Password</Label>
-        <Input
-          invalid={passwordMismatch}
-          type="password"
-          value={confirmPassword}
-          onChange={(e) => {
-            setPasswordMismatch(false);
-            setConfirmPassword(e.target.value);
-          }}
-        />
-        <FormFeedback>Passwords do not match!</FormFeedback>
-      </FormGroup>
-      <p style={{ color: "red" }} hidden={!registrationFailure}>
-        Registration Failure
-      </p>
-      <Button
-        color="primary"
-        onClick={handleSubmit}
-        disabled={passwordMismatch}
-      >
-        Register
-      </Button>
-      <p>
-        Already signed up? Log in <Link to="/login">here</Link>
-      </p>
-    </div>
+    <>
+      <div className="container" style={{ maxWidth: "500px" }}>
+        <h3>Sign Up</h3>
+        <FormGroup>
+          <Label>First Name</Label>
+          <Input
+            type="text"
+            value={firstName}
+            onChange={(e) => {
+              setFirstName(e.target.value);
+            }}
+          />
+        </FormGroup>
+        <FormGroup>
+          <Label>Last Name</Label>
+          <Input
+            type="text"
+            value={lastName}
+            onChange={(e) => {
+              setLastName(e.target.value);
+            }}
+          />
+        </FormGroup>
+        <FormGroup>
+          <Label>Email</Label>
+          <Input
+            type="email"
+            value={email}
+            onChange={(e) => {
+              setEmail(e.target.value);
+            }}
+          />
+        </FormGroup>
+        <FormGroup>
+          <Label>User Name</Label>
+          <Input
+            type="text"
+            value={userName}
+            onChange={(e) => {
+              setUserName(e.target.value);
+            }}
+          />
+        </FormGroup>
+        <FormGroup>
+          <Label>Address</Label>
+          <Input
+            type="text"
+            value={address}
+            onChange={(e) => {
+              setAddress(e.target.value);
+            }}
+          />
+        </FormGroup>
+        <FormGroup>
+          <Label>Password</Label>
+          <Input
+            invalid={passwordMismatch}
+            type="password"
+            value={password}
+            onChange={(e) => {
+              setPasswordMismatch(false);
+              setPassword(e.target.value);
+            }}
+          />
+        </FormGroup>
+        <FormGroup>
+          <Label> Confirm Password</Label>
+          <Input
+            invalid={passwordMismatch}
+            type="password"
+            value={confirmPassword}
+            onChange={(e) => {
+              setPasswordMismatch(false);
+              setConfirmPassword(e.target.value);
+            }}
+          />
+          <FormFeedback>Passwords do not match!</FormFeedback>
+        </FormGroup>
+        <p style={{ color: "red" }} hidden={!registrationFailure}>
+          Registration Failure
+        </p>
+        <Button
+          color="primary"
+          onClick={handleSubmit}
+          disabled={passwordMismatch}
+        >
+          Register
+        </Button>
+        <p>
+          Already signed up? Log in <Link to="/login">here</Link>
+        </p>
+      </div>
+      <div style={{ color: "red" }}>
+        {Object.keys(errors).map((key) => (
+          <p key={key}>
+            {key} : {errors[key].join(",")}
+          </p>
+        ))}
+      </div>
+    </>
   );
 }
